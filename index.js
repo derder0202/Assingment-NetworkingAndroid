@@ -7,6 +7,8 @@ const morgan = require("morgan")
 const dotenv = require("dotenv")
 const authorRoute = require('./routes/author')
 const bookRoute = require('./routes/book')
+const userRoute = require('./routes/user')
+const commentRoute = require('./routes/comment')
 
 //CONNECT DATABASE MONGO
 dotenv.config()
@@ -15,12 +17,18 @@ mongoose.connect(process.env.MONGODB_URL,()=>{
 })
 
 app.use(bodyParser.json({limit:'50mb'}))
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 app.use(cors())
 app.use(morgan('common'))
 
 //ROUTES
 app.use('/v1/author',authorRoute)
 app.use('/v1/book',bookRoute)
+app.use('/v1/user',userRoute)
+app.use('/v1/comment',commentRoute)
 
 
 app.listen(8000,()=>{

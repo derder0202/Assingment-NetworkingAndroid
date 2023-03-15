@@ -3,9 +3,8 @@ const bookController = require('../controller/bookController')
 const authorController = require("../controller/authorController");
 
 const multer = require('multer');
-let dirPathSave = ""
 const storage = multer.diskStorage({
-    destination: "./uploads"+dirPathSave,
+    destination: "./uploads",
     filename: function (req, file, cb) {
         cb(null, file.originalname)
     }
@@ -29,9 +28,9 @@ const checkFileType = function (file, cb) {
     }
 };
 const upload2 = multer({ storage: storage,
-    // fileFilter: (req,file, cb) =>{
-    //     checkFileType(file,cb)
-    // }
+    fileFilter: (req,file, cb) =>{
+        checkFileType(file,cb)
+    }
 }).array("imgs",1000)
 
 const fs = require('fs-extra')
@@ -49,7 +48,7 @@ route.put('/:id',bookController.updateBook)
 route.delete('/:id',bookController.deleteBook)
 
 //test
-route.post('/test',async (req,res)=>{
+route.post('/',async (req,res)=>{
     try {
         upload2(req, res, async function  (err) {
             if (err instanceof multer.MulterError) {
@@ -59,15 +58,13 @@ route.post('/test',async (req,res)=>{
             }
             //url = `${req.protocol + '://' + '192.168.1.76:3000'}/v1/book/7vienngocrong/${req.file.filename}`
 
-
-
             const newBook = new Book()
             let imgs = []
-            for(var i=0; i<req.files.length; i++){
-                imgs.push(`{req.protocol}://${req.get('host')}${req.originalUrl}/${newBook.id}/${req.files[i].originalname}`)
+            for(var i=1; i<req.files.length; i++){
+                imgs.push(`${req.protocol}://${req.get('host')}${req.originalUrl}/${newBook.id}/${req.files[i].originalname}`)
                 fs.move(`./uploads/${req.files[i].originalname}`,`./uploads/${newBook.id}/${req.files[i].originalname}`)
             }
-            newBook.set({imgs,...req.body})
+            newBook.set({mainImg:`${req.protocol}://${req.get('host')}${req.originalUrl}/${newBook.id}/${req.files[0].originalname}`,imgs,...req.body})
 
             await newBook.save()
 

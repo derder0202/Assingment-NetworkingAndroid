@@ -22,23 +22,73 @@ const bookSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    price:{
+    description:{
         type: String,
+        required : true
     },
     author:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Author"
+        type: String,
+        required : true
     },
-    imgs: [String]
-})
-const imgSchema = mongoose.Schema({
-    data: Buffer,
-    contentType: String
+    year:{
+      type:Number,
+      require: true
+    },
+    mainImg:{
+        type: String,
+        required : true
+    },
+    imgs: [String],
+    comments:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
+        }
+    ]
 })
 
+const userSchema = new mongoose.Schema({
+    username:{
+        type:String,
+        required: true
+    },
+    password:{
+        type:String,
+        required: true
+    },
+    email:{
+        type:String,
+        required: true
+    },
+    fullName:{
+        type:String,
+        required: true
+    }
+})
+
+const commentSchema = new mongoose.Schema({
+    idBook:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Book"
+    },
+    idUser:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    content:{
+        type:String,
+        required: true
+    },
+    date:{
+        type:String,
+        required: true
+    }
+})
+
+let Comment = mongoose.model("Comment",commentSchema)
+let User = mongoose.model("User",userSchema)
 let Book = mongoose.model("Book",bookSchema)
 let Author = mongoose.model("Author",authorSchema)
-const ImageModel = mongoose.model('Image', imgSchema);
 
-module.exports = {Book, Author,ImageModel}
+module.exports = {Book, Author,User,Comment}
 

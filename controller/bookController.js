@@ -32,7 +32,7 @@ const bookController = {
     getAllBook: async (req,res) =>{
         try {
             console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
-            const allBooks = await Book.find()
+            const allBooks = await Book.find().populate("comments")
             res.status(200).json(allBooks)
         } catch (e) {
             res.status(500).json(e)
@@ -41,7 +41,7 @@ const bookController = {
     //GET A BOOK
     getABook: async (req,res) =>{
         try{
-            const book = await  Book.findById({_id: req.params.id}).populate("author").populate('img')
+            const book = await  Book.findById({_id: req.params.id}).populate("comments")
             res.status(200).json(book)
         }catch (e) {
             res.status(500).json(e.message)
