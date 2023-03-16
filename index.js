@@ -12,7 +12,7 @@ const commentRoute = require('./routes/comment')
 
 //CONNECT DATABASE MONGO
 dotenv.config()
-mongoose.connect(process.env.MONGODB_URL,()=>{
+mongoose.connect("mongodb+srv://mr73367:Dontdie1@cluster0.e3xjorq.mongodb.net/?retryWrites=true&w=majority",()=>{
         console.log("Connected to MongoDb")
 })
 

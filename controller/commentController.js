@@ -13,7 +13,10 @@ const commentController = {
         try{
             const newComment = new Comment({date:Date.now(),...req.body})
             const saveComment = await newComment.save()
-
+            if(req.body.idBook){
+                const book = Book.findById(req.body.idBook)
+                await book.updateOne({$push: {comments: saveComment._id}})
+            }
             res.status(200).json(saveComment)
         }catch (e) {
             res.status(500).json(e)

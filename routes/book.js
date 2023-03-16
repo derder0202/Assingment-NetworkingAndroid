@@ -65,6 +65,7 @@ route.post('/',async (req,res)=>{
                 fs.move(`./uploads/${req.files[i].originalname}`,`./uploads/${newBook.id}/${req.files[i].originalname}`)
             }
             newBook.set({mainImg:`${req.protocol}://${req.get('host')}${req.originalUrl}/${newBook.id}/${req.files[0].originalname}`,imgs,...req.body})
+            fs.move(`./uploads/${req.files[0].originalname}`,`./uploads/${newBook.id}/${req.files[0].originalname}`)
 
             await newBook.save()
 
