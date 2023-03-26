@@ -50,6 +50,15 @@ const userController = {
             res.status(500).json(e)
         }
     },
+
+    getUserFavorite: async (req,res) =>{
+        try{
+            const user = await  User.findOne({username: req.params.username}).populate("favorite").select("favorite")
+            res.status(200).json(user)
+        }catch (e) {
+            res.status(500).json(e.message)
+        }
+    },
     // deleteUser: async (req,res) => {
     //     try{
     //         await Author.updateMany(

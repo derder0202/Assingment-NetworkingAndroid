@@ -4,6 +4,9 @@ const commentController = require('../controller/commentController')
 //Add comment
 router.post("/",commentController.addComment)
 
+router.get("/",commentController.getAllComment)
+router.get("/book/:idBook",commentController.getListCommentByBook)
+
 //Get comment
 router.get("/:id",commentController.getComment)
 

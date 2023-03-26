@@ -42,6 +42,8 @@ const fs = require('fs-extra')
 route.get('/',bookController.getAllBook)
 //GET A BOOK
 route.get("/:id",bookController.getABook)
+//GET  BOOK comment
+route.get("/:id/comment",bookController.getBookComment)
 //UPDATE A BOOK
 route.put('/:id',bookController.updateBook)
 //Delete A BOOK
@@ -80,6 +82,14 @@ route.post('/',async (req,res)=>{
 
 //getimage
 route.get('/:book/:id',bookController.getImage)
+
+route.post('/replace',bookController.replaceIP)
+
+
+//save objectId book to user
+// input => idUser, idBook
+route.post("/addToFavorite",bookController.addToFavorite)
+route.post("/likeBook",bookController.likeBook)
 
 
 module.exports = route

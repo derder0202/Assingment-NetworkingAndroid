@@ -44,7 +44,13 @@ const bookSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Comment"
         }
-    ]
+    ],
+    like:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
 })
 
 const userSchema = new mongoose.Schema({
@@ -63,7 +69,13 @@ const userSchema = new mongoose.Schema({
     fullName:{
         type:String,
         required: true
-    }
+    },
+    favorite:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Book"
+        }
+    ]
 })
 
 const commentSchema = new mongoose.Schema({

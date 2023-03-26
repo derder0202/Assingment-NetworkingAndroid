@@ -9,10 +9,11 @@ const authorRoute = require('./routes/author')
 const bookRoute = require('./routes/book')
 const userRoute = require('./routes/user')
 const commentRoute = require('./routes/comment')
+const bookV2Router = require("./routes/bookv2testRealm")
 
 //CONNECT DATABASE MONGO
 dotenv.config()
-mongoose.connect("mongodb+srv://mr73367:Dontdie1@cluster0.e3xjorq.mongodb.net/?retryWrites=true&w=majority",()=>{
+mongoose.connect(process.env.MONGODB_URL,()=>{
         console.log("Connected to MongoDb")
 })
 
@@ -24,9 +25,15 @@ app.use(bodyParser.urlencoded({
 app.use(cors())
 app.use(morgan('common'))
 
+app.get("/",async (req,res) =>{
+    res.status(200).json("Hello")
+})
+
 //ROUTES
 app.use('/v1/author',authorRoute)
 app.use('/v1/book',bookRoute)
+app.use('/v2/book',bookV2Router)
+
 app.use('/v1/user',userRoute)
 app.use('/v1/comment',commentRoute)
 
@@ -34,3 +41,5 @@ app.use('/v1/comment',commentRoute)
 app.listen(8000,()=>{
     console.log("Server is running...")
 })
+
+module.exports = {app}
